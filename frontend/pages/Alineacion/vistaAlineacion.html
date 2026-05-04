@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <script src="/frontend/config/config.js"></script>
+    <script>loadHead("Alineación")</script>
+</head>
+<body class="bg-white text-dark d-flex flex-column">
+    <!-- HEADER -->
+    <div id="header-placeholder"></div>
+
+    <!-- LAYOUT CON SIDEBAR -->
+    <div class="container-fluid">
+        <div class="row">
+            <!-- SIDEBAR -->
+            <div id="sidebar-placeholder" class="sidebar-bg col-auto p-0"></div>
+
+            <!-- CONTENIDO PRINCIPAL -->
+            <div class="col">
+                <main class="p-3 p-md-4">
+                    <div class="d-flex justify-content-between align-items-center mb-4">
+
+                        <div class="d-flex align-items-center gap-3">
+                            <div>
+                                <h1 class="mb-0 fw-bold">Alineación</h1>
+                                <small class="text-muted">Organización de equipos y líneas de guardia</small>
+                            </div>
+
+                            <!-- Selector de fecha -->
+                            <input 
+                                type="date" 
+                                id="fechaGuardia"
+                                class="form-control w-170px"
+                            >
+                        </div>
+
+                        <!-- Icono ayuda -->
+                        <a href="https://www.notion.so/07_Guardias_Cuadrantes-31b0bf35f60680b29d0bfa3a87b4d750" target="_blank" 
+                           class="text-muted" title="Ayuda">
+                            <i class="bi bi-question-circle fs-4"></i>
+                        </a>
+
+                    </div>
+
+                    <!-- MIGAS DE PAN -->
+                    <div id="breadcrumb-placeholder"></div>
+
+                    <!-- CONTENIDO DE LA PÁGINA -->
+                    <div class="row g-3">
+
+                        <!-- Alineación diaria -->
+                        <div class="col-xl-8 col-lg-7">
+                            <div class="card h-100 contenedorInsertar">
+                                <div class="card-header fw-bold">
+                                    alineación diaria
+                                </div>
+                                <div class="card-body">
+                                    <div class="row g-2" id="gridAlineacion">
+
+                                        <!-- OF1 / OF2 -->
+                                        <div class="col-6">
+                                            <label class="form-label small text-muted mb-1">OF1</label>
+                                            <select class="form-select" data-slot="OF1" data-cargo="OFICIAL1">
+                                                <option value="">— sin asignar —</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-6">
+                                            <label class="form-label small text-muted mb-1">OF2</label>
+                                            <select class="form-select" data-slot="OF2" data-cargo="OFICIAL2">
+                                                <option value="">— sin asignar —</option>
+                                            </select>
+                                        </div>
+
+                                        <!-- C1 / C2 -->
+                                        <div class="col-6">
+                                            <label class="form-label small text-muted mb-1">C1</label>
+                                            <select class="form-select" data-slot="C1" data-cargo="CONDUCTOR1">
+                                                <option value="">— sin asignar —</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-6">
+                                            <label class="form-label small text-muted mb-1">C2</label>
+                                            <select class="form-select" data-slot="C2" data-cargo="CONDUCTOR2">
+                                                <option value="">— sin asignar —</option>
+                                            </select>
+                                        </div>
+
+                                        <!-- B1 / B2 -->
+                                        <div class="col-6">
+                                            <label class="form-label small text-muted mb-1">B1</label>
+                                            <select class="form-select" data-slot="B1" data-cargo="BOMBERO1">
+                                                <option value="">— sin asignar —</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-6">
+                                            <label class="form-label small text-muted mb-1">B2</label>
+                                            <select class="form-select" data-slot="B2" data-cargo="BOMBERO2">
+                                                <option value="">— sin asignar —</option>
+                                            </select>
+                                        </div>
+
+                                        <!-- B3 / B4 -->
+                                        <div class="col-6">
+                                            <label class="form-label small text-muted mb-1">B3</label>
+                                            <select class="form-select" data-slot="B3" data-cargo="BOMBERO3">
+                                                <option value="">— sin asignar —</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-6">
+                                            <label class="form-label small text-muted mb-1">B4</label>
+                                            <select class="form-select" data-slot="B4" data-cargo="BOMBERO4">
+                                                <option value="">— sin asignar —</option>
+                                            </select>
+                                        </div>
+
+                                        <!-- B5 / B6 -->
+                                        <div class="col-6">
+                                            <label class="form-label small text-muted mb-1">B5</label>
+                                            <select class="form-select" data-slot="B5" data-cargo="BOMBERO5">
+                                                <option value="">— sin asignar —</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-6">
+                                            <label class="form-label small text-muted mb-1">B6</label>
+                                            <select class="form-select" data-slot="B6" data-cargo="BOMBERO6">
+                                                <option value="">— sin asignar —</option>
+                                            </select>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Bomberos de guardia (sin cargo asignado) -->
+                        <div class="col-xl-4 col-lg-5">
+                            <div class="card h-100 contenedorInsertar">
+                                <div class="card-header fw-bold">
+                                    bomberos de guardia
+                                </div>
+                                <div class="card-body d-grid gap-2" id="listaSinCargo">
+                                    <!-- Se rellena dinámicamente con los bomberos sin cargo -->
+                                    <p class="text-muted small mb-0" id="sinCargoPlaceholder">
+                                        Selecciona una fecha para cargar la guardia.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Notas -->
+                        <div class="col-xl-8 col-lg-7">
+                            <div class="card contenedorInsertar">
+                                <div class="card-header fw-bold">
+                                    notas
+                                </div>
+                                <div class="card-body">
+                                    <textarea class="form-control" rows="5" id="notasGuardia"></textarea>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Refuerzos del día -->
+                        <div class="col-xl-4 col-lg-5">
+                            <div class="card h-100 contenedorInsertar">
+                                <div class="card-header fw-bold">
+                                    refuerzos del día
+                                </div>
+                                <div id="refuerzosDia" class="card-body">
+                                    
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Botones centrados debajo -->
+                        <div class="col-12">
+                            <div class="d-flex justify-content-center gap-2">
+                                <button type="button" class="btn btn-secondary" id="btnLimpiar">
+                                    Limpiar
+                                </button>
+                                <button type="button" class="btn btn-primary" id="btnInsertar">
+                                    Guardar
+                                </button>
+                            </div>
+                        </div>
+
+                    </div>
+                </main>
+            </div>
+        </div>
+    </div>
+
+    <!-- FOOTER -->
+    <div id="footer-placeholder" class="mt-auto"></div>
+    <!-- ALERT-->
+    <div id="alert-container" class="position-fixed top-0 end-0 p-3"></div>
+
+    <script type="module" src="/frontend/javascript/controllers_f/AlineacionController.js"></script>
+</body>
+</html>

@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <script src="/frontend/config/config.js"></script>
+    <script>loadHead("Emergencias")</script>
+    <script type="module" src="/frontend/javascript/controllers_f/EmergenciaController.js"></script>
+</head>
+<body class="bg-white text-dark d-flex flex-column">
+
+    <div id="header-placeholder"></div>
+
+    <div class="d-flex flex-grow-1">
+
+        <div id="sidebar-placeholder" class="sidebar-bg col-auto p-0"></div>
+
+        <main class="p-3 w-100">
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <div>
+                        <h1 class="mb-0 fw-bold">Partes de Intervención</h1>
+                        <small class="text-muted">Registro de intervenciones y emergencias atendidas</small>
+                    </div>
+                    <div class="d-flex align-items-center gap-3">
+                        <a href="/tipoEmergencia" 
+                           class="btn btn-outline-secondary btn-gestion" 
+                           data-permiso="tiposEmergencia">
+                            <i class="bi bi-gear me-1"></i> Gestionar Tipos
+                        </a>
+                        <a href="https://www.notion.so/06_Emergencias-31b0bf35f60680368697dfcc52939852" target="_blank"
+                           class="text-muted" title="Ayuda">
+                            <i class="bi bi-question-circle fs-4"></i>
+                        </a>
+                    </div>
+                </div>
+
+            <!-- MIGAS DE PAN -->
+            <div id="breadcrumb-placeholder"></div>
+
+            <!-- Tabla con filtro -->
+            <div class="container mt-4 p-0">
+                <div id="filtroTabla" class="m-0 row d-flex justify-content-around">
+                    <div class="col-md-5 d-flex align-items-center m-1">
+                        <label class="m-2">Tipo:</label>
+                        <select class="form-select m-1" id="filtroTipoEmergencia" data-col="5">
+                            <option value="">Seleccione...</option>
+                        </select>
+                    </div>
+                    <div class="col-md-3 d-flex align-items-center m-1">
+                        <label class="m-2">Estado:</label>
+                        <select class="form-select m-1 filtro" id="grupo" data-col="3">
+                            <option value="">Todos</option>
+                            <option>Activa</option>
+                            <option>Cerrada</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="table-responsive">
+                    <table class="table table-bordered table-striped table-responsive-sm" id="tabla">
+                    <thead class="table-dark">
+                        <tr>
+                            <th class="d-none d-lg-table-cell">ID Emergencia</th>
+                            <th>Fecha</th>
+                            <th class="d-none d-lg-table-cell">Descripción</th>
+                            <th>Estado</th>
+                            <th class="d-none d-lg-table-cell">Dirección</th>
+                            <th class="d-none d-lg-table-cell">Tipo</th>
+                            <th class="d-none d-lg-table-cell">Vehículos</th>
+                            <th>Acción</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+                </div>
+            </div>
+            <!-- Paginación -->
+            <div id="pagination-emergencia" class="mt-3"></div>
+
+            <!-- Formulario insertar -->
+            <div class="contenedorInsertar container mt-5 p-4 border rounded">
+                <h5 class="text-center mb-4">Insertar emergencia</h5>
+                <form id="formIncidencia" class="mx-auto">
+
+                    <!-- Fila 1 -->
+                    <div class="row mb-3">
+                        <div class="col-md-6 col-lg-4">
+                            <label for="fecha" class="form-label">Fecha</label>
+                            <input type="date" class="form-control" id="fecha" name="fecha" required>
+                        </div>
+                        <div class="col-md-6 col-lg-4">
+                            <label for="estado" class="form-label">Estado</label>
+                            <select class="form-select" id="estado" name="estado">
+                                <option value="">Seleccione...</option>
+                                <option value="activa">Activa</option>
+                                <option value="cerrada">Cerrada</option>
+                            </select>
+                        </div>
+                        <div class="col-md-6 col-lg-4">
+                            <label for="direccion" class="form-label">Dirección</label>
+                            <input type="text" class="form-control" id="direccion" name="direccion">
+                        </div>
+                    </div>
+
+                    <!-- Fila 2 -->
+                    <div class="row mb-3">
+                        <div class="col-md-6 col-lg-4">
+                            <label for="tipoEmergenciaInsert" class="form-label">Tipo</label>
+                            <select class="form-select" id="tipoEmergenciaInsert" name="codigo_tipo"></select>
+                        </div>
+                        <div class="col-md-6 col-lg-4">
+                            <label for="id_bombero" class="form-label">ID Bombero</label>
+                            <input type="text" class="form-control" id="id_bombero" name="id_bombero">
+                        </div>
+                        <div class="col-md-6 col-lg-4">
+                            <label for="nombre_solicitante" class="form-label">Nombre Solicitante</label>
+                            <input type="text" class="form-control" id="nombre_solicitante" name="nombre_solicitante">
+                        </div>
+                    </div>
+
+                    <!-- Fila 3 -->
+                    <div class="row mb-3">
+                        <div class="col-md-6 col-lg-4">
+                            <label for="tlf_solicitante" class="form-label">Tlfn Solicitante</label>
+                            <input type="tel" class="form-control" id="tlf_solicitante" name="tlf_solicitante">
+                        </div>
+                        <div class="col-md-8">
+                            <label class="form-label">Vehículos asignados</label>
+                            <div class="input-group">
+                                <input type="text" class="form-control" id="resumenVehiculosInsertar"
+                                       placeholder="Sin vehículos asignados" readonly>
+                                <button type="button" class="btn btn-primary"
+                                        data-bs-toggle="modal"
+                                        data-bs-target="#modalInsertarEquipo">+</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Descripción -->
+                    <div class="mb-4">
+                        <label for="descripcion" class="form-label">Descripción</label>
+                        <textarea class="form-control" id="descripcion" name="descripcion" rows="4"></textarea>
+                    </div>
+
+                    <!-- Botones -->
+                    <div class="d-flex justify-content-center gap-2">
+                        <button type="reset" class="btn btn-secondary">Limpiar</button>
+                        <button type="submit" class="btn btn-primary">Guardar cambios</button>
+                    </div>
+
+                </form>
+            </div>
+        </main>
+    </div>
+
+    <!-- Modal editar -->
+    <div class="modal fade" id="modalEditar" tabindex="-1" aria-labelledby="modalEditarLabel" aria-hidden="true">
+        <div class="modal-dialog modal-xl modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modalEditarLabel">Editar registro</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="formEditar">
+                        <!-- Generado dinámicamente -->
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal ver -->
+    <div class="modal fade" id="modalVer" tabindex="-1">
+        <div class="modal-dialog modal-lg modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Detalle de la emergencia</h5>
+                    <button class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body" id="modalVerBody"></div>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal añadir equipo -->
+    <div class="modal fade" id="modalInsertarEquipo" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-dialog-centered">
+            <div class="modal-content">
+
+                <div class="modal-header justify-content-center">
+                    <h5 class="modal-title text-danger fw-bold">Insertar Equipo</h5>
+                    <button type="button" class="btn-close position-absolute end-0 me-3" data-bs-dismiss="modal"></button>
+                </div>
+
+                <div class="modal-body">
+
+                    <!-- Fechas -->
+                    <div class="row mb-3">
+                        <div class="col-md-4">
+                            <label class="form-label">Fech_Salida <span class="text-danger">*</span></label>
+                            <input type="datetime-local" class="form-control" id="fechSalida">
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label">Fech_Llegada</label>
+                            <input type="datetime-local" class="form-control" id="fechLlegada">
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label">Fech_Regreso</label>
+                            <input type="datetime-local" class="form-control" id="fechRegreso">
+                        </div>
+                    </div>
+
+                    <!-- Añadir vehículo -->
+                    <div class="row mb-3 align-items-end">
+                        <div class="col-md-8">
+                            <label class="form-label">Vehículo a añadir</label>
+                            <select class="form-select" id="selectVehiculo">
+                                <option value="">Seleccione vehículo...</option>
+                            </select>
+                        </div>
+                        <div class="col-md-4">
+                            <button type="button" class="btn btn-outline-danger w-100" id="btnAnadirVehiculo">
+                                + Añadir vehículo
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Lista dinámica de vehículos -->
+                    <div id="listaVehiculosAsignados"></div>
+
+                </div>
+
+                <div class="modal-footer justify-content-center gap-3">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Volver</button>
+                    <button type="button" class="btn btn-primary" id="btnGuardarEquipo">Guardar</button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <div id="footer-placeholder"></div>
+    <div id="alert-container" class="position-fixed top-0 end-0 p-3"></div>
+
+    <script>
+      // Auto-completar ID Bombero y fechas desde sesión
+      document.addEventListener('DOMContentLoaded', function() {
+        // Auto-completar ID Bombero con sesión
+        const user = JSON.parse(sessionStorage.getItem('user'));
+        if (user?.id_bombero) {
+          document.getElementById('id_bombero').value = user.id_bombero;
+        }
+        
+        // Auto-completar fecha del formulario con fecha actual
+        const fechaInput = document.getElementById('fecha');
+        if (fechaInput && !fechaInput.value) {
+          fechaInput.value = new Date().toISOString().split('T')[0];
+        }
+        
+        // Auto-completar fechas del modal al abrir
+        const modalInsertarEquipo = document.getElementById('modalInsertarEquipo');
+        if (modalInsertarEquipo) {
+          modalInsertarEquipo.addEventListener('show.bs.modal', function() {
+            const now = new Date().toISOString().slice(0, 16);
+            document.getElementById('fechSalida').value = now;
+            document.getElementById('fechLlegada').value = now;
+            document.getElementById('fechRegreso').value = now;
+          });
+        }
+      });
+    </script>
+
+</body>
+</html>

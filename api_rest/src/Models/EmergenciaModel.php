@@ -1,0 +1,206 @@
+<?php
+declare(strict_types=1);
+
+namespace Models;
+
+use Core\DB;
+use Exception;
+
+class EmergenciaModel
+{
+    private DB $db;
+
+    public function __construct()
+    {
+        $this->db = new DB();
+    }
+
+    //================= EMERGENCIA =====================
+
+    public function all(): array
+    {
+        return $this->db
+            ->query("
+                SELECT 
+                    e.*,
+                    t.nombre AS nombre_tipo
+                FROM Emergencia e
+                INNER JOIN Tipo_emergencia t 
+                    ON e.codigo_tipo = t.codigo_tipo
+                ORDER BY e.id_emergencia DESC
+            ")
+            ->fetchAll();
+    }
+
+    public function find(int $id): ?array
+    {
+        $result = $this->db
+            ->query("SELECT * FROM Emergencia WHERE id_emergencia = :id")
+            ->bind(":id", $id)
+            ->fetch();
+
+        return $result ?: null;
+    }
+
+    public function create(array $data): int|false
+    {
+        $this->db->query("
+            INSERT INTO Emergencia
+            (id_bombero, fecha, descripcion, estado, direccion, nombre_solicitante, tlf_solicitante, codigo_tipo)
+            VALUES
+            (:id_bombero, NOW(), :descripcion, :estado, :direccion, :nombre_solicitante, :tlf_solicitante, :codigo_tipo)
+        ")
+        ->bind(":id_bombero", $data['id_bombero'] ?? null)
+        ->bind(":descripcion", $data['descripcion'])
+        ->bind(":estado", $data['estado'])
+        ->bind(":direccion", $data['direccion'])
+        ->bind(":nombre_solicitante", $data['nombre_solicitante'] ?? null)
+        ->bind(":tlf_solicitante", $data['tlf_solicitante'] ?? null)
+        ->bind(":codigo_tipo", $data['codigo_tipo'] ?? null)
+        ->execute();
+
+        return (int) $this->db->lastId();
+    }
+
+    public function update(int $id, array $data): int
+    {
+        $this->db->query("
+            UPDATE Emergencia SET
+                id_bombero = :id_bombero,
+                descripcion = :descripcion,
+                estado = :estado,
+                direccion = :direccion,
+                nombre_solicitante = :nombre_solicitante,
+                tlf_solicitante = :tlf_solicitante,
+                codigo_tipo = :codigo_tipo
+            WHERE id_emergencia = :id
+        ")
+        ->bind(":id", $id)
+        ->bind(":id_bombero", $data['id_bombero'] ?? null)
+        ->bind(":descripcion", $data['descripcion'])
+        ->bind(":estado", $data['estado'])
+        ->bind(":direccion", $data['direccion'])
+        ->bind(":nombre_solicitante", $data['nombre_solicitante'] ?? null)
+        ->bind(":tlf_solicitante", $data['tlf_solicitante'] ?? null)
+        ->bind(":codigo_tipo", $data['codigo_tipo'] ?? null)
+        ->execute();
+
+        return $this->db
+            ->query("SELECT ROW_COUNT() AS affected")
+            ->fetch()['affected'];
+    }
+
+    //================= EMERGENCIA_VEHICULO =====================
+
+    public function allVehiculos(int $id): array
+    {
+        return $this->db
+            ->query("SELECT * FROM Emergencia_Vehiculo WHERE id_emergencia = :id")
+            ->bind(":id", $id)
+            ->fetchAll();
+    }
+
+    public function addVehiculo(array $data, int $id_emergencia): int|false
+    {
+        $this->db->query("
+            INSERT INTO Emergencia_Vehiculo
+            (id_emergencia, matricula, f_salida, f_llegada, f_regreso)
+            VALUES
+            (:id_emergencia, :matricula, :f_salida, :f_llegada, :f_regreso)
+        ")
+        ->bind(":id_emergencia", $id_emergencia)
+        ->bind(":matricula", $data['matricula'])
+        ->bind(":f_salida", $data['f_salida'])
+        ->bind(":f_llegada", $data['f_llegada'] ?? null)
+        ->bind(":f_regreso", $data['f_regreso'] ?? null)
+        ->execute();
+
+        return 1; // PK compuesta
+    }
+
+    //================= ELIMINAR VEHÍCULO + PERSONAS =====================
+    public function deleteVehiculo(int $id_emergencia, string $matricula): int
+    {
+        try {
+            $this->db->beginTransaction();
+
+            // 1️⃣ Borrar todas las personas asociadas
+            $stmt1 = $this->db->query("
+                DELETE FROM Emergencia_Vehiculo_Persona
+                WHERE id_emergencia = :id_emergencia
+                AND matricula = :matricula
+            ");
+            $stmt1->bind(":id_emergencia", $id_emergencia)
+                ->bind(":matricula", $matricula)
+                ->execute();
+
+            // 2️⃣ Borrar el vehículo
+            $stmt2 = $this->db->query("
+                DELETE FROM Emergencia_Vehiculo
+                WHERE id_emergencia = :id_emergencia
+                AND matricula = :matricula
+            ");
+            $stmt2->bind(":id_emergencia", $id_emergencia)
+                ->bind(":matricula", $matricula)
+                ->execute();
+
+            $this->db->commit();
+
+            return $stmt2->rowCount(); // devuelve filas eliminadas del vehículo
+
+        } catch (Exception $e) {
+            $this->db->rollBack();
+            throw $e;
+        }
+    }
+
+    //================= EMERGENCIA_VEHICULO_PERSONA =====================
+
+    public function getPersonal(int $id_emergencia, string $matricula): array
+    {
+        return $this->db
+            ->query("
+                SELECT p.nombre, p.id_bombero 
+                FROM Persona p 
+                INNER JOIN Emergencia_Vehiculo_Persona evp 
+                    ON p.id_bombero = evp.id_bombero
+                WHERE matricula = :matricula AND id_emergencia = :id_emergencia
+            ")
+            ->bind(":matricula", $matricula)
+            ->bind(":id_emergencia", $id_emergencia)
+            ->fetchAll();
+    }
+
+    public function addPersonal(int $id_emergencia, string $matricula, array $data): int|false
+    {
+        $this->db->query("
+            INSERT INTO Emergencia_Vehiculo_Persona
+            (id_bombero, matricula, id_emergencia, cargo)
+            VALUES
+            (:id_bombero, :matricula, :id_emergencia, :cargo)
+        ")
+        ->bind(":id_bombero", $data['id_bombero'])
+        ->bind(":matricula", $matricula)
+        ->bind(":id_emergencia", $id_emergencia)
+        ->bind(":cargo", $data['cargo'] ?? null)
+        ->execute();
+
+        return 1;
+    }
+
+    public function deletePersonal(int $id_emergencia, string $matricula, string $id_bombero): int
+    {
+        $this->db->query("
+            DELETE FROM Emergencia_Vehiculo_Persona
+            WHERE id_emergencia = :id_emergencia
+              AND matricula = :matricula
+              AND id_bombero = :id_bombero
+        ")
+        ->bind(":id_emergencia", $id_emergencia)
+        ->bind(":matricula", $matricula)
+        ->bind(":id_bombero", $id_bombero)
+        ->execute();
+
+        return $this->db->rowCount();
+    }   
+}

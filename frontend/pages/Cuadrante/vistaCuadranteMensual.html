@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <script src="/frontend/config/config.js"></script>
+    <script>loadHead("Cuadrante Mensual", { filtroTabla: false, extraCSS: ["vistaCuadranteMensual.css"] })</script>
+    <!-- Carga UNA SOLA VEZ el script -->
+    <script type="module" src="/frontend/javascript/controllers_f/CuadranteMensualController.js"></script>
+</head>
+<body class="text-dark d-flex flex-column">
+
+    <div id="header-placeholder"></div>
+
+    <div class="container-fluid">
+        <div class="row">
+            <div id="sidebar-placeholder" class="sidebar-bg col-auto p-0"></div>
+
+            <main class="col p-3 p-md-4 main-container overflow-hidden">
+
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <div>
+                        <h1 class="mb-0 fw-bold">Cuadrante Mensual</h1>
+                        <small class="text-muted">Calendario mensual de horarios y turnos</small>
+                    </div>
+                    <a href="https://www.notion.so/07_Guardias_Cuadrantes-31b0bf35f60680b29d0bfa3a87b4d750" target="_blank"
+                        class="text-muted" title="Ayuda">
+                        <i class="bi bi-question-circle fs-4"></i>
+                    </a>
+                </div>
+
+                <div id="breadcrumb-placeholder"></div>
+
+                <!-- LEYENDA (adaptada para el mensual) -->
+                <div class="leyenda-box mb-3">Leyenda mensual</div>
+
+                <!-- CONTROLES DE MES Y AÑO -->
+                <div class="container-fluid calendar-main py-3 gris rounded">
+                    <div class="d-flex flex-wrap justify-content-center align-items-center gap-2 mb-4">
+                        <!-- CABECERA MES CON BOTONES DE NAVEGACIÓN (estilo integrado) -->
+                        <div class="d-flex justify-content-between align-items-center bg-light p-2 rounded w-100">
+                            <div>
+                                <button class="btn btn-outline-secondary btn-sm me-1" id="btnPrevYear" title="Año anterior">
+                                    <i class="bi bi-chevron-double-left"></i>
+                                </button>
+                                <button class="btn btn-outline-secondary btn-sm" id="btnPrevMonth" title="Mes anterior">
+                                    <i class="bi bi-chevron-left"></i>
+                                </button>
+                            </div>
+                            
+                            <div class="fw-bold fs-5">
+                                <i class="bi bi-calendar3 me-2"></i>
+                                <span id="monthYear"></span>
+                            </div>
+                            
+                            <div>
+                                <button class="btn btn-outline-secondary btn-sm me-1" id="btnNextMonth" title="Mes siguiente">
+                                    <i class="bi bi-chevron-right"></i>
+                                </button>
+                                <button class="btn btn-outline-secondary btn-sm" id="btnNextYear" title="Año siguiente">
+                                    <i class="bi bi-chevron-double-right"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- TABLA CUADRANTE MENSUAL (con estilo de contenedor) -->
+                    <div class="container-fluid bg-light rounded p-3" id="calendario">
+                        <div class="table-responsive">
+                            <table class="table" >
+                                <thead class="background-black text">
+                                    <tr id="daysHeader">
+                                        <th>Bombero</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="calendarBody">
+                                    <tr>
+                                        <td class="fw-bold">24</td>
+                                    </tr>
+                                    <tr>
+                                        <td>&nbsp;</td>
+                                    </tr>
+                                    <tr class="table-secondary fw-bold">
+                                        <td>total guardia</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <div id="footer-placeholder" class="mt-auto"></div>
+</body>
+</html>

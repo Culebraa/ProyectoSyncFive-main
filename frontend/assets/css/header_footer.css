@@ -1,0 +1,104 @@
+@import "paleta_colores.css";
+
+    header {
+        background-color: var(--rojo-granate);
+    }
+
+    .header-text, .header-user span {
+        color: var(--blanco);
+    }
+
+
+    footer {
+        background-color: var(--negro);
+    }
+
+    .footer-text,
+    .footer-link {
+        color: var(--blanco);
+    }
+
+    header a.d-block img {
+        width: 205px;
+        min-width: 100px;
+    }
+
+    .header-profile-pic {
+        width: 36px !important;
+        min-width: 36px !important;
+        height: 36px !important;
+        border-radius: 50% !important;
+        object-fit: cover !important;
+        flex-shrink: 0;
+    }
+
+    .gris{
+        background-color: var(--gris);
+    }
+
+    .gris td{
+        background-color: var(--gris);
+    }
+
+    table td{
+        border: 1px solid var(--negro);
+        border-collapse: collapse;
+    }
+
+    #calendario th{
+        border: 1px solid var(--negro);
+    }
+
+    /* Footer siempre abajo - VERSIÓN MÁS SEGURA */
+    body {
+        min-height: 100vh;
+    }
+    
+
+    #sidebar{
+        width:200px;
+        padding-left: 0%;
+        padding-right: 0%;
+    }
+    
+    @media (min-width: 992px) {
+        .sidebar-bg {
+            background-color: var(--gris)
+        }
+
+        #sidebar{
+            width: 205px;
+            padding-left: 0%;
+            padding-right: 0%;
+        }
+    }
+
+    aside{
+        background-color: var(--gris);
+        
+    }
+
+
+    header.container-fluid {
+        padding-left: 0;
+    }
+
+    .alerta-activa {
+        animation: parpadeo 1s infinite;
+        color: #ffc107 !important;
+        filter: drop-shadow(0 0 6px #ff4444);
+    }
+
+    @keyframes parpadeo {
+        0%, 100% { opacity: 1; }
+        50% { opacity: 0.3; }
+    }
+    /* Fix layout al hacer zoom */
+    .main-container {
+        min-width: 0;
+        overflow-x: auto;
+    }
+
+    .col {
+        min-width: 0;
+    }

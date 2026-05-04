@@ -1,0 +1,46 @@
+version: "3.9"
+
+services:
+  apache:
+    build: .
+    container_name: miguel-apache
+    ports:
+      - "8081:80"
+    volumes:
+      - ./:/var/www/html
+    networks:
+      - syncfive-network
+    depends_on:
+      - db
+
+  db:
+    image: mariadb:10.6
+    container_name: miguel-db
+    restart: always
+    environment:
+      MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
+      MYSQL_DATABASE: syncfive
+      MYSQL_ROOT_PASSWORD: ""
+    volumes:
+      - syncfive_data:/var/lib/mysql
+    networks:
+      - syncfive-network
+
+  phpmyadmin:
+    image: phpmyadmin
+    container_name: miguel-phpmyadmin
+    restart: always
+    ports:
+      - "8082:80"
+    environment:
+      - PMA_ARBITRARY=1
+      - PMA_HOST=db
+    networks:
+      - syncfive-network
+
+networks:
+  syncfive-network:
+    driver: bridge
+
+volumes:
+  syncfive_data:

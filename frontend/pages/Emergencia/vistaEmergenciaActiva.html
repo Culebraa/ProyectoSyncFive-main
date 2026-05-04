@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <script src="/frontend/config/config.js"></script>
+    <script>loadHead("Emergencias Activas")</script>
+    <script type="module" src="/frontend/javascript/controllers_f/EmergenciasActivasController.js"></script>
+</head>
+<body class="bg-white text-dark d-flex flex-column">
+
+    <!-- HEADER -->
+    <div id="header-placeholder"></div>
+
+    <!-- LAYOUT CON SIDEBAR -->
+    <div class="container-fluid">
+        <div class="row">
+            <!-- SIDEBAR -->
+            <div id="sidebar-placeholder" class="sidebar-bg col-auto p-0"></div>
+
+            <!-- CONTENIDO PRINCIPAL -->
+            <main class="col p-3 p-md-4 main-container">
+
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <div>
+                        <h1 class="mb-0 fw-bold">Emergencias activas</h1>
+                        <small class="text-muted">Seguimiento de emergencias en curso</small>
+                    </div>
+                    <div class="d-flex align-items-center gap-3">
+                        <span class="badge bg-danger fs-6">EN TIEMPO REAL</span>
+                        <a href="https://www.notion.so/06_Emergencias-31b0bf35f60680368697dfcc52939852" target="_blank"
+                           class="text-muted" title="Ayuda">
+                            <i class="bi bi-question-circle fs-4"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="container-fluid" id="contenedor-emergencias">
+
+                </div>
+            </main>
+        </div>
+    </div>
+    <!-- FOOTER -->
+    <div id="footer-placeholder" class="mt-auto"></div>
+
+    <!-- MODAL VER DETALLE EMERGENCIA -->
+    <div class="modal fade" id="modalVerEmergencia" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
+            <div class="modal-content">
+
+                <div class="modal-header">
+                    <h5 class="modal-title">
+                        Detalle de la emergencia
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+
+                <div class="modal-body" id="modalVerEmergenciaBody">
+                    <!-- Contenido dinámico -->
+                </div>
+
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" data-bs-dismiss="modal">
+                        Cerrar
+                    </button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <!-- MODAL CERRAR EMERGENCIA -->
+    <div class="modal fade" id="modalCerrarEmergencia" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content border-danger">
+
+                <div class="modal-header  text-white">
+                    <h5 class="modal-title">
+                        Cerrar emergencia
+                    </h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+
+                <div class="modal-body">
+                    <p>
+                        ¿Estás seguro de que deseas <strong>cerrar esta emergencia</strong>?
+                    </p>
+                    <p class="text-muted mb-0">
+                        Esta acción marcará la emergencia como finalizada.
+                    </p>
+
+                    <input type="hidden" id="cerrarEmergenciaId">
+                </div>
+
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" data-bs-dismiss="modal">
+                        Cancelar
+                    </button>
+                    <button class="btn btn-danger" id="btnConfirmarCerrarEmergencia">
+                        Cerrar emergencia
+                    </button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    
+    <!-- ALERT-->
+    <div id="alert-container" class="position-fixed top-0 end-0 p-3"></div>
+
+</body>
+
+</html>

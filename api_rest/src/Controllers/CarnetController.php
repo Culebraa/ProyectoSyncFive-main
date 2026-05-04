@@ -1,0 +1,193 @@
+<?php
+declare(strict_types=1);
+
+namespace Controllers;
+
+// Peticion HTTP
+use Core\Request;
+// Respuesta HTTP
+use Core\Response;
+// Logica de negocio de los carnets
+use Services\CarnetService;
+// Errores de validacion
+use Validation\ValidationException;
+// Errores genericos
+use Throwable;
+
+
+class CarnetController
+{
+    private CarnetService $service;
+
+    // Constructor
+    public function __construct()
+    {
+        $this->service = new CarnetService();
+    }
+
+    
+    /**
+     * GET /carnets
+     * Listado completo de carnets
+     */
+    public function index(Request $req, Response $res): void
+    {
+        try {
+            // Obtiene todos los carnets
+            $carnets = $this->service->getAllCarnets();
+            // Devuelve un 200 OK
+            $res->status(200)->json($carnets, "Listado de carnets obtenido correctamente");
+        } catch (Throwable $e) {
+            // Devuelve error genérico
+            $res->errorJson($e->getMessage(), 500);
+        }
+    }
+
+    /**
+     * POST /carnets
+     */
+    public function store(Request $req, Response $res): void
+    {
+        try {
+            $result = $this->service->createCarnet($req->json());
+            $res->status(201)->json(
+                ['id' => $result['ID_Carnet']],
+                "Carnet creado correctamente"
+            );
+        } catch (ValidationException $e) {
+            $res->status(422)->json(
+                ['errors' => $e->errors],
+                "Errores de validación"
+            );
+            return;
+        } catch (Throwable $e) {
+            $code = $e->getCode() >= 400 && $e->getCode() < 600 ? $e->getCode() : 500;
+            $res->errorJson(app_debug() ? $e->getMessage() : "Error interno del servidor", $code);
+            return;
+        }
+    }
+    /**
+     * DELETE /carnets/{id}
+     */
+    public function delete(Request $req, Response $res, string $id): void
+    {
+        try {
+            $this->service->deleteCarnet((int) $id);
+            $res->status(200)->json([], "Carnet eliminado correctamente");
+        } catch (ValidationException $e) {
+            $res->status(422)->json(['errors' => $e->errors], "Errores de validación");
+        } catch (Throwable $e) {
+            $code = $e->getCode() >= 400 && $e->getCode() < 600 ? $e->getCode() : 500;
+            $res->errorJson($e->getMessage(), $code);
+        }
+    }
+
+    /**
+     * GET /personas/{id_bombero}/carnets
+     */
+    public function personCarnets(Request $req, Response $res, string $id_bombero): void
+    {
+        try {
+            $carnets = $this->service->getCarnetsByPerson($id_bombero);
+            $res->status(200)->json(
+                $carnets,
+                "Carnets asociados a la persona obtenidos correctamente"
+            );
+        } catch (Throwable $e) {
+            $code = $e->getCode() >= 400 && $e->getCode() < 600 ? $e->getCode() : 500;
+            $res->errorJson($e->getMessage(), $code);
+        }
+    }
+
+/**
+ * GET /carnets/{id_carnet}
+ */
+public function show(Request $req, Response $res, string $id_carnet): void
+{
+    try {
+        $carnet = $this->service->getCarnetById((int) $id_carnet);
+        $res->status(200)->json($carnet, "OK");
+    } catch (Throwable $e) {
+        $code = $e->getCode() >= 400 ? $e->getCode() : 500;
+        $res->errorJson($e->getMessage(), $code);
+    }
+}
+    /**
+     * GET /carnets/{ID_Carnet}/personas
+     */
+    public function persons(Request $req, Response $res, string $ID_Carnet): void
+    {
+        try {
+            $persons = $this->service->getPersonsByCarnet($ID_Carnet);
+
+            $res->status(200)->json(
+                $persons,
+                "Personas asociadas al carnet obtenidas correctamente"
+            );
+
+        } catch (Throwable $e) {
+            $code = ($e->getCode() >= 400) ? $e->getCode() : 500;
+            $res->errorJson($e->getMessage(), $code);
+        }
+    }
+
+    /**
+     * POST /carnets/asignar
+     */
+    public function assign(Request $req, Response $res): void
+    {
+        try {
+            $data = $req->json();
+            $result = $this->service->assign($data);
+            $res->status(201)->json([], $result['message']);
+
+        } catch (ValidationException $e) {
+            $res->status(422)->json(['errors' => $e->errors], "Errores de validación");
+
+        } catch (Throwable $e) {
+            $code = $e->getCode() > 0 ? $e->getCode() : 500;
+            $res->errorJson($e->getMessage(), $code);
+        }
+    }
+/**
+ * PUT /carnets/{id_carnet}
+ */
+public function update(Request $req, Response $res, string $id_carnet): void
+{
+    try {
+        $result = $this->service->updateCarnet($id_carnet, $req->json());
+        $res->status(200)->json([], $result['message']);
+    } catch (ValidationException $e) {
+        $res->status(422)->json(['errors' => $e->errors], "Errores de validación");
+    } catch (Throwable $e) {
+        $code = $e->getCode() >= 400 ? $e->getCode() : 500;
+        $res->errorJson($e->getMessage(), $code);
+    }
+}
+    /**
+     * DELETE /carnets/{ID_Carnet}/personas/{id_bombero}
+     */
+    public function unassign(
+        Request $req,
+        Response $res,
+        string $ID_Carnet,
+        string $id_bombero
+    ): void {
+        try {
+            $result = $this->service->unassignCarnetFromPerson(
+                $id_bombero,
+                $ID_Carnet
+            );
+
+            $res->status(200)->json([], $result['message']);
+
+        } catch (ValidationException $e) {
+            $res->status(422)->json(['errors' => $e->errors], "Errores de validación");
+
+        } catch (Throwable $e) {
+            $code = $e->getCode() > 0 ? $e->getCode() : 500;
+            $res->errorJson($e->getMessage(), $code);
+        }
+    }
+}
+?>
