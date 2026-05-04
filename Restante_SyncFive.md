@@ -57,16 +57,22 @@ Página Cuadrante Mensual (JAVIER/GERMÁN):
 37. Habría que revisar el tema de los permisos en esta página. Ver quien podrá ver que cosa.
 
 Páginas Infraestructuras de Agua "Mapas" (DAVID) :
+<----------------- FIN------------->
 14. Cambiar el título a algo más descriptivo. Infraestructuras de Agua no involucra a los vehículos que también aparecen en el mapa.
 15. Añadir un icono a la cuarta tarjeta en la que aparecen los "Activos", poner un nombre más descriptivo.
 16. Los filtros solo filtran las infraestructuras de agua, deben filtrar también los vehículos.
 17. ¿Quizás estaría bien que los municipios fueran un desplegable?¿O quedaría demasiado largo? Al ser un campo de texto puedes escribir mal en nombre y dar la falsa sensación de que ese municipio no existe. Si no otra opción es un campo de texto que te vaya dando sugerencias de los registros que se parecen a los que estás escribiendo.
 18. Falta añadir a los filtros el Tipo "Vehículo".
-19. Da error a la hora de editar las infraestructuras de agua. El municipio con ese código tan extraño puede causar confusión. Añadir algo como en el punto 4.
 20. La eliminación se debe hacer un modal de bootstrap como en el resto de página, no con un alert javascript.
 
+<-------------------- Por hacer ---------------------->
+
+19. Da error a la hora de editar las infraestructuras de agua. El municipio con ese código tan extraño puede causar confusión. Añadir algo como en el punto 4.
+
 Página de Formaciones (DAVID):
+
 38. No funciona nada. Arreglado por Diego
+
 39. En el ojo de ver más estaría bien poner el ID.
 40. Hay que mejorar el trato a las claves foráneas aquí, no se tratan de la mejor manera posible pues no puede ser que porque haya un bombero asignado a una formación ya no te puedas apuntar a ella.
 41. Lo mismo que en otros casos, recordatorio global. Hay que mejorar mucho la forma de tratar los errores y más aún cuando entran de por medio excepciones por foráneas o claves primarias.

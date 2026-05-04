@@ -8,16 +8,16 @@ use Core\Response;
 use Validation\ValidationException;
 use Throwable;
 
-use Services\Mapa;
-
+use Services\MapaService;
 
 class MapaController
 {
-    private Mapa $service;
+    private MapaService $service;
+
 
     public function __construct()
     {
-        $this->service = new Mapa();
+$this->service = new MapaService();
     }
 
 

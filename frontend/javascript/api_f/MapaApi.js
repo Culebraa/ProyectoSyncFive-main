@@ -1,6 +1,6 @@
-import ApiClient from './ApiClient.js';
+﻿import ApiClient from './ApiClient.js';
 
-const InfraestructuraAguaApi = {
+const MapaApi = {
 
   /**
    * GET /mapa

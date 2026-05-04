@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="es">
 
 <head>
@@ -62,7 +62,7 @@
           <div class="card text-center border-0 shadow-sm h-100">
             <div class="card-body py-3">
               <div class="fs-3 fw-bold text-success" id="cntActivos">—</div>
-              <div class="small text-muted">Activos</div>
+              <div class="small text-muted">Elementos Activos</div>
             </div>
           </div>
         </div>
@@ -78,6 +78,7 @@
                 <option value="">Todos</option>
                 <option value="HIDRANTE">💧 Hidrante</option>
                 <option value="BOCA_RIEGO">🚰 Boca de riego</option>
+                <option value="VEHICULO">🚒 Vehiculo</option>
               </select>
             </div>
             <div class="col-6 col-md-3">
@@ -89,11 +90,20 @@
                 <option value="HUESCA">Huesca</option>
               </select>
             </div>
+
+            <!--Municipio con Sugerencias-->
             <div class="col-6 col-md-3">
               <label class="form-label small mb-1">Municipio</label>
-              <input type="text" class="form-control form-control-sm" id="filtroMunicipio"
-                placeholder="Buscar municipio…">
+              <div class="position-relative">
+                <input type="text" class="form-control form-control-sm" id="filtroMunicipio"
+                  placeholder="Buscar municipio…" autocomplete="off">
+                <ul id="municipioSuggestions" class="list-group position-absolute w-100 shadow-sm"
+                  style="z-index:1000; display:none; max-height:200px; overflow-y:auto; top:100%">
+                </ul>
+              </div>
             </div>
+
+
             <div class="col-6 col-md-3">
               <label class="form-label small mb-1">Estado</label>
               <select class="form-select form-select-sm" id="filtroEstado">
@@ -286,7 +296,30 @@
       </div>
     </div>
   </div>
-
+  <!-- ══════════════════════════════════════════════════════════
+     MODAL ELIMINAR
+══════════════════════════════════════════════════════════ -->
+  <div class="modal fade" id="modalEliminar" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">
+            <i class="bi bi-trash text-danger me-2"></i>Eliminar infraestructura
+          </h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body">
+          ¿Estás seguro de que quieres eliminar esta infraestructura? Esta acción no se puede deshacer.
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+          <button type="button" class="btn btn-danger" id="btnConfirmarEliminar">
+            <i class="bi bi-trash me-1"></i>Eliminar
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
 
   <script type="module" src="/frontend/javascript/controllers_f/MapaController.js"></script>
 </body>
