@@ -82,19 +82,19 @@ class EdicionModel
         return $this->db->query("SELECT ROW_COUNT() AS affected")->fetch()['affected'];
     }
 
-    public function getPersonasEdicion(int $id_formacion, int $id_edicion): array
-    {
-        return $this->db
-            ->query("
-                SELECT p.* FROM Persona_Edicion pe
-                JOIN Persona p ON pe.id_bombero = p.id_bombero
-                JOIN Edicion i ON pe.id_edicion = i.id_edicion
-                WHERE i.id_edicion = :id_edicion AND i.id_formacion = :id_formacion
-            ")
-            ->bind(":id_edicion", $id_edicion)
-            ->bind(":id_formacion", $id_formacion)
-            ->fetchAll();
-    }
+public function getPersonasEdicion(int $id_formacion, int $id_edicion): array
+{
+    return $this->db
+        ->query("
+            SELECT p.* FROM Persona_Edicion pe
+            JOIN Persona p ON pe.id_bombero = p.id_bombero
+            WHERE pe.id_edicion = :id_edicion 
+              AND pe.id_formacion = :id_formacion
+        ")
+        ->bind(":id_edicion", $id_edicion)
+        ->bind(":id_formacion", $id_formacion)
+        ->fetchAll();
+}
 
     public function addPersonal(int $id_formacion, int $id_edicion, array $data): int|false
     {

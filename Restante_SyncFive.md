@@ -65,23 +65,26 @@ Páginas Infraestructuras de Agua "Mapas" (DAVID) :
 18. Falta añadir a los filtros el Tipo "Vehículo".
 20. La eliminación se debe hacer un modal de bootstrap como en el resto de página, no con un alert javascript.
 
+
+
+38. No funciona nada. Arreglado por Diego
+39. En el ojo de ver más estaría bien poner el ID.
+
+43. No deja ver más detalles. 
+44. No deja editar.
+45. No deja eliminar. 
 <-------------------- Por hacer ---------------------->
 
 19. Da error a la hora de editar las infraestructuras de agua. El municipio con ese código tan extraño puede causar confusión. Añadir algo como en el punto 4.
 
 Página de Formaciones (DAVID):
-
-38. No funciona nada. Arreglado por Diego
-
-39. En el ojo de ver más estaría bien poner el ID.
 40. Hay que mejorar el trato a las claves foráneas aquí, no se tratan de la mejor manera posible pues no puede ser que porque haya un bombero asignado a una formación ya no te puedas apuntar a ella.
+
 41. Lo mismo que en otros casos, recordatorio global. Hay que mejorar mucho la forma de tratar los errores y más aún cuando entran de por medio excepciones por foráneas o claves primarias.
 
 Página de Ediciones (DAVID):
 42. En el formulario de inserción a la relación. El campo del ID de los Bomberos igual sería más comodo si fuera desplegable. Yo creo que lo mejor aquí sería copiar el formulario de inserción de destinatarios que se usa en la página de avisos.
-43. No deja ver más detalles.
-44. No deja editar.
-45. No deja eliminar.
+
 
 Página de Personas/Trabajadores/Usuarios (DAVID):
 77. En el filtro en vez de localidad añadiría parque, además las localidades son cargadas con las provincias, no con las localidades por lo que el filtro pierde toda su utilidad.
