@@ -416,7 +416,7 @@ document.addEventListener('click', async function (e) {
   const btn = e.target.closest('.btn-ver');
   if (!btn) return;
 
-  const item = todasLasInfraestructuras.find(i => i.id == btn.dataset.id);
+  const item = todasLasInfraestructuras.find(i => i.codigo == btn.dataset.codigo);
   if (!item) return;
 
   const body = document.getElementById('modalVerBody');
@@ -451,10 +451,10 @@ document.addEventListener('click', async function (e) {
   const btn = e.target.closest('.btn-editar');
   if (!btn) return;
 
-  const item = todasLasInfraestructuras.find(i => i.id == btn.dataset.id);
+  const item = todasLasInfraestructuras.find(i => i.codigo == btn.dataset.codigo);
   if (!item) return;
 
-  const id = btn.dataset.id;
+  const id = btn.dataset.codigo;
   const form = document.getElementById('formEditar');
   form.innerHTML = `
     <div class="row mb-3">
