@@ -78,14 +78,18 @@ Página de Ediciones (DAVID):
 44. No deja editar.
 45. No deja eliminar. 
 42. En el formulario de inserción a la relación. El campo del ID de los Bomberos igual sería más comodo si fuera desplegable. Yo creo que lo mejor aquí sería copiar el formulario de inserción de destinatarios que se usa en la página de avisos.
-<-------------------- Por hacer ---------------------->
 
 Página de Personas/Trabajadores/Usuarios (DAVID):
+
 77. En el filtro en vez de localidad añadiría parque, además las localidades son cargadas con las provincias, no con las localidades por lo que el filtro pierde toda su utilidad.
 78. En la página de los detalles de la persona debe aparecer el id de bombero y el número de funcionario. En este punto la localidada también aparece como provincia, no como localidad, esto es un error. Deberían aparecer las dos, tanto la localidad como la provincia. Revisar el resto de datos que podrían faltar o estar erróneos.
 79. No funciona la inserción por la validación del número de funcionario. "A priori"
 80. Faltaría probar la eliminación cuando funcione la inserción.
 81. Responsividad HORRIBLE.
+<-------------------- Por hacer ---------------------->
+
+
+
 
 Página de Carnets (DIEGO):
 46. Añadir el id en el ojo de ver más.
